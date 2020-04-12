@@ -1,0 +1,121 @@
+import React, { Component } from 'react';
+import './App.css';
+import './SecondCss.css';
+import Test  from './Person/Person';
+import styled from 'styled-components';
+
+const StyledButton = styled.button`
+  background-color : ${props => props.alt ? 'red' : 'green'};
+  font : inherit;
+  border : 1px solid blue;
+  padding : 8px;
+  align : center;
+  cursor : pointer;
+  &:hover  {
+    background-color : ${props => props.alt ? 'salmon' : 'lightgreen'};
+    color : black;
+`;
+
+class App extends Component {
+  state = {
+    ary : [ 
+      {id: '1', name : 'SHKN', age: 24},
+      {id: '2', name : 'GK', age: 26},
+      {id: '3', name : 'CD', age: 53},
+    ],
+    showPersons : false
+  }
+  switchNameHandler = (newName) => {
+    this.setState ( {
+      ary: [ 
+        {name : newName, age: 24},
+        {name : 'GK', age: 26},
+        {name : 'CD', age: 55},
+      ]
+    }); 
+  }
+
+  nameChangeHandler = (event, id) => {
+    this.setState ( {
+      ary: [ 
+        {name : 'SH', age: 24},
+        {name : event.target.value, age: 26},
+        {name : 'CD', age: 55},
+      ]
+    });  
+  }
+
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons : !doesShow});
+  
+  }
+
+  deletePersonHandler = (aryIndex) => {
+    //const pers = this.state.ary.slice();
+    const pers = [...this.state.ary];
+    pers.splice(aryIndex,1);
+    this.setState({ary : pers});
+  }
+  render() {
+    /*const style = {
+      fontColor : 'white',
+      backgroundColor : 'green',
+      font : 'inherit',
+      border : '1px solid blue',
+      padding : '8px',
+      align : 'center',
+      cursor : 'pointer',
+      ':hover' : {
+        backgroundColor : 'Lightgreen',
+        color : 'black'
+      }  
+   }*/
+    let persons =  null;
+    if(this.state.showPersons){
+      persons = (
+        <div>
+          {this.state.ary.map((arry,index) => {
+            return <Test 
+              click = {() => this.deletePersonHandler(index)}
+              name = {arry.name}
+              age = {arry.age}
+              key = {arry.id}
+              change = {this.nameChangeHandler} />
+          })}
+        </div> 
+      );
+
+      /*style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor : ' blue',
+        color : 'black'
+      }*/
+    }
+
+    let classes = [];
+    if(this.state.ary.length <= 2) {
+      classes.push('bold');
+    }
+    if(this.state.ary.length <= 1) {
+      classes.push('red');
+    }
+    return (
+        <div align = 'center'>
+          <h1 className="App">Sample React App Project</h1>
+          <p className={classes.join(' ')}>Heading2</p>
+          <StyledButton
+            alt = {this.state.showPersons}
+            onClick= {()=> this.switchNameHandler('NPK')}
+            key = "key1">SwitchName</StyledButton>
+          <StyledButton 
+            alt = {this.state.showPersons}
+            onClick= {this.togglePersonsHandler}
+            key = "key2">Toggle Persons</StyledButton>
+          {persons}
+        </div>
+    );
+    // return React.createElement('div', {className : 'App'}, React.createElement('h1', null, 'Hi, I\'m React!!!'));
+  }
+}
+export default App;
