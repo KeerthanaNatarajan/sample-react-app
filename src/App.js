@@ -1,21 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 import './SecondCss.css';
 import Test  from './Person/Person';
-import styled from 'styled-components';
-import Radium, {StyledRoot} from 'radium';
-
-/*const StyledButton = styled.button`
-  background-color : ${props => props.alt ? 'red' : 'green'}
-  font : inherit;
-  border : 1px solid blue;
-  padding : 8px;
-  align : center;
-  cursor : pointer;
-  &:hover  {
-    background-color : ${props => props.alt ? 'salmon' : 'lightgreen'}
-    color : black;
-`;*/
 
 class App extends Component {
   state = {
@@ -29,9 +15,9 @@ class App extends Component {
   switchNameHandler = (newName) => {
     this.setState ( {
       ary: [ 
-        {name : newName, age: 24},
-        {name : 'GK', age: 26},
-        {name : 'CD', age: 55},
+        {id:'1', name : newName, age: 24},
+        {id:'2', name : 'GK', age: 26},
+        {id:'3', name : 'CD', age: 55},
       ]
     }); 
   }
@@ -59,7 +45,7 @@ class App extends Component {
     this.setState({ary : pers});
   }
   render() {
-    const style = {
+    /*const style = {
       fontColor : 'white',
       backgroundColor : 'green',
       font : 'inherit',
@@ -71,8 +57,9 @@ class App extends Component {
         backgroundColor : 'Lightgreen',
         color : 'black'
       }  
-   }
+   }*/
     let persons =  null;
+    let btnClass = null;
     if(this.state.showPersons){
       persons = (
         <div>
@@ -87,32 +74,32 @@ class App extends Component {
         </div> 
       );
 
-      style.backgroundColor = 'red';
+      /*style.backgroundColor = 'red';
       style[':hover'] = {
-        backgroundColor : ' blue',
+        backgroundColor : ' salmon',
         color : 'black'
-      }
+      }*/
+      btnClass = classes.Red;
     }
-
-    let classes = [];
+   
+    let assignedClasses = [];
+    
     if(this.state.ary.length <= 2) {
-      classes.push('bold');
+      assignedClasses.push(classes.bold);
     }
     if(this.state.ary.length <= 1) {
-      classes.push('red');
+      assignedClasses.push(classes.red);
     }
     return (
-        <div align = 'center'>
-          <h1 className="App">Sample React App Project</h1>
-          <p className={classes.join(' ')}>Heading2</p>
+        <div className={classes.App}>
+          <h1 >Sample React App Project</h1>
+          <p className={assignedClasses.join(' ')}>Heading2</p>
           <button
-            style = {style}
-            alt = {this.state.showPersons}
+            className = {btnClass}
             onClick= {()=> this.switchNameHandler('NPK')}
             key = "key1">SwitchName</button>
           <button 
-            style = {style}
-            alt = {this.state.showPersons}
+            className = {btnClass}
             onClick= {this.togglePersonsHandler}
             key = "key2">Toggle Persons</button>
           {persons}
@@ -121,4 +108,4 @@ class App extends Component {
     // return React.createElement('div', {className : 'App'}, React.createElement('h1', null, 'Hi, I\'m React!!!'));
   }
 }
-export default Radium(App);
+export default App;
