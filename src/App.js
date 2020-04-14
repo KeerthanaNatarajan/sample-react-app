@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from './App.css';
 import './SecondCss.css';
 import Test  from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary'
 
 class App extends Component {
   state = {
@@ -64,12 +65,14 @@ class App extends Component {
       persons = (
         <div>
           {this.state.ary.map((arry,index) => {
-            return <Test 
-              click = {() => this.deletePersonHandler(index)}
-              name = {arry.name}
-              age = {arry.age}
-              key = {arry.id}
-              change = {this.nameChangeHandler} />
+            return 
+              <ErrorBoundary key = {arry.id}>
+                <Test 
+                  click = {() => this.deletePersonHandler(index)}
+                  name = {arry.name}
+                  age = {arry.age}
+                  change = {this.nameChangeHandler} />
+              </ErrorBoundary>
           })}
         </div> 
       );
